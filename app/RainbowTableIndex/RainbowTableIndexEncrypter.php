@@ -43,9 +43,14 @@ class RainbowTableIndexEncrypter
         return sodium_bin2hex(sodium_crypto_generichash($s));
     }
 
+    public static function hash_md5($s)
+    {
+        return hash("md5", $s);
+    }
+
     public static function short_hash($s)
     {
-        retrun sodium_crypto_shorthash($s, self::getKey());
+        return sodium_crypto_shorthash($s, self::getNonce());
     }
 
     protected static function getKey()

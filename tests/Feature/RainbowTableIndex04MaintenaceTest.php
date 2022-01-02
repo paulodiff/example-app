@@ -42,7 +42,7 @@ class RainbowTableIndex04MaintenaceTest extends TestCase
     {
 
         Log::channel('stderr')->info('Maintenance: start!', [] );
-
+/*
         $numOftests = $this->NUM_OF_SEARCH;
         $this->faker = Faker::create('Maintenance');
 
@@ -55,10 +55,8 @@ class RainbowTableIndex04MaintenaceTest extends TestCase
 
         Log::channel('stderr')->info('Maintenance:rebuildFullRainbowIndex:->', []);
         $r2 = Author::rebuildFullRainbowIndex();
-
-        // Log::channel('stderr')->info('Maintenance:rebuildFullRainbowIndex:->', [$r2]);
-
-
+*/
+        Log::channel('stderr')->info('Maintenance: end!', [] );
 
     }
 

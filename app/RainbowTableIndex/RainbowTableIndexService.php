@@ -307,7 +307,15 @@ class RainbowTableIndexService
     {
       $tname = $this->slugify($tag);
       Log::debug('RainbowTableService!setupStorage!', [$tname] );
+    
+      if (config('rainbowtableindex.encrypt'))
+      {
+        $tname = RainbowTableIndexEncrypter::hash_md5($tname);
+      }
+
       $tname = 'rt_' . $tname;
+
+
       if ( !Schema::hasTable($tname)) {
         Log::debug('RainbowTableService!setupStorage!CREATE TABLE', [$tname] );
 

@@ -104,18 +104,20 @@ trait RainbowTableIndexTrait
       // fulltext protrebbero essere più di uno
       $data2index = self::buildDataToIndex($this->toArray());
 
-      if ( count($data2index) > 0)
+      $data2index = self::buildDataToIndex($this->toArray());
+
+      // reset index data
+      foreach( $data2index['fields'] as $item )
       {
-        $rtService->delRT($data2index[0]['tag'],$data2index[0]['value']);
-        foreach( $data2index as $item )
-        {
-          $rtService->setRT($item['tag'],$item['key'],$item['value']);
-        }
+        $rtService->delRT($item['tag'],$item['value']);
       }
-      else
+
+      // set index
+      foreach( $data2index['data'] as $item )
       {
-        // WARNING NO ITEM TO INDEX!!!!
+        $rtService->setRT($item['tag'],$item['key'],$item['value']);
       }
+
 
       // reset and update index
 
@@ -390,7 +392,7 @@ trait RainbowTableIndexTrait
         $rtService->setRT($item['tag'],$item['key'],$item['value']);
       }
 
-  
+
       Log::debug('RainbowTrait!rebuildRainbowIndex', ['OK'] );
       $output[] = 'rebuildRainbowIndex:OK!';
       return $output;

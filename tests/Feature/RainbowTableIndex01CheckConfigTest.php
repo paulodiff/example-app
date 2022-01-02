@@ -80,11 +80,13 @@ class RainbowTableIndex01CheckConfigTest extends TestCase
             // Test Encryption Function
 
             $test = "test";
-            $h1 = RainbowTableIndexEncrypter::hash($test);
-            Log::channel('stderr')->info('Hash("test"):', [$h1] );
-            $h2 = RainbowTableIndexEncrypter::short_hash($test);
-            Log::channel('stderr')->info('Short_Hash("test"):', [$h2] );
-            
+            $md5 = hash("md5", $test);
+            $sha1 = hash("sha1", $test);
+            // $h1 = RainbowTableIndexEncrypter::hash($test);
+            Log::channel('stderr')->info('Hash("test"):', [$md5, $sha1] );
+            // $h2 = RainbowTableIndexEncrypter::short_hash($test);
+            // Log::channel('stderr')->info('Short_Hash("test"):', [$h2] );
+
         } else {
             Log::channel('stderr')->info('CheckConfig:', ['!ERROR! .env parameters NOT FOUND, check config/rainbowtableindex.php configuration, add this following values to .env and run '] );
             $key = sodium_crypto_secretbox_keygen();
