@@ -61,6 +61,23 @@ class RainbowTableIndex01CheckConfigTest extends TestCase
             Log::channel('stderr')->info('CheckConfig:', ['table comments already exits'] );
         }
 
+        Log::channel('stderr')->info('CheckConfig:', ['Creating table posts ...'] );
+        if ( !Schema::hasTable('posts'))
+        {
+               Schema::create('posts', function (Blueprint $table) {
+                $table->increments('id');
+                $table->text('title');
+                $table->text('title_enc'); // for test only
+                $table->integer('author_id');
+                $table->timestamps();
+            });
+            Log::channel('stderr')->info('CheckConfig:', ['table posts created'] );
+        }
+        else
+        {
+            Log::channel('stderr')->info('CheckConfig:', ['table posts already exits'] );
+        }
+
 
         Log::channel('stderr')->info('CheckConfig:', ['Checking PHP SODIUM'] );
         try {

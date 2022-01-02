@@ -1,0 +1,14 @@
+7705 Granville Forest Suite 167
+
+
+[2022-01-02 14:07:53] local.ERROR: Check mismatch : ["address","Vill"]
+[2022-01-02 14:07:53] local.ERROR: arr1 enc  : [[{"id":1},{"id":54},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
+[2022-01-02 14:07:53] local.ERROR: arr2 flat : [[{"id":1},{"id":54},{"id":122},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
+
+[
+    'fName' => 'address_enc',
+    'fType' => 'ENCRYPTED_FULL_TEXT',
+    'fSafeChars' => ' àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.',
+    'fTransform' => 'NONE',
+    'fMinTokenLen' => 4,
+],

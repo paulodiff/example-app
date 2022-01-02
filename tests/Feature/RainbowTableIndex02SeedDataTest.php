@@ -106,6 +106,12 @@ class RainbowTableIndex02SeedDataTest extends TestCase
 
             Log::channel('stderr')->info('SeedData:' . $i . '#' . $numOfAuthors .']Author Added!:', [$p->toArray()]);
 
+
+            // Adding Posts
+
+            // ----------
+
+
         }
 
 
