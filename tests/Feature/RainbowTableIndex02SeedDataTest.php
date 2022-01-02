@@ -14,10 +14,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Faker\Factory as Faker;
 
 use App\RainbowTableIndex\RainbowTableIndexService;
-use App\Models\Post;
-use App\Models\Comment;
-use App\Models\Category;
 use App\Models\Author;
+use App\Models\Post;
 
 
 
@@ -25,28 +23,17 @@ class RainbowTableIndex02SeedDataTest extends TestCase
 {
 
     // -------------------- TO CHANGE ---------------------------------------
-    public $NUM_OF_AUTHORS_TO_CREATE = 1000;
-    public $NUM_OF_POSTS_TO_CREATE = 1000;
+    public $NUM_OF_AUTHORS_TO_CREATE = 100;
+    public $NUM_OF_POSTS_TO_CREATE = 5;
     public $NUM_OF_COMMENTS_TO_CREATE = 5;
     // -------------------- TO CHANGE ---------------------------------------
 
-    // create database model and seed dat
-
-
-    // test read data with time execution
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function test_seed_data()
     {
-
 
         $numOfPosts = $this->NUM_OF_POSTS_TO_CREATE;
         $numOfComments = $this->NUM_OF_COMMENTS_TO_CREATE;
         $numOfAuthors = $this->NUM_OF_AUTHORS_TO_CREATE;
-
 
         Log::channel('stderr')->info('SeedData:', [
             'start seeding ....',
@@ -106,9 +93,18 @@ class RainbowTableIndex02SeedDataTest extends TestCase
 
             Log::channel('stderr')->info('SeedData:' . $i . '#' . $numOfAuthors .']Author Added!:', [$p->toArray()]);
 
-
             // Adding Posts
+            for($j=0;$j<$numOfPosts;$j++)
+            {
+              $q = new Post();
+              $q->title = strtoupper($faker->name());
+              $q->title_enc = $q->title;
+              $q->author_id = $p->id;
+              $q->save();
+              Log::channel('stderr')->info('SeedData:' . $j . '#' . $numOfPosts .']Post Added!:', [$q->toArray()]);
 
+
+            }
             // ----------
 
 

@@ -1,9 +1,13 @@
 7705 Granville Forest Suite 167
-
-
 [2022-01-02 14:07:53] local.ERROR: Check mismatch : ["address","Vill"]
 [2022-01-02 14:07:53] local.ERROR: arr1 enc  : [[{"id":1},{"id":54},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
 [2022-01-02 14:07:53] local.ERROR: arr2 flat : [[{"id":1},{"id":54},{"id":122},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
+
+Check mismatch : ["address","arde"]
+11) 39006 Nettie Garden Suite 880
+39) 732 Ardella Prairie
+[2022-01-02 19:44:10] local.ERROR: arr1 enc  : [[{"id":11}]]
+[2022-01-02 19:44:10] local.ERROR: arr2 flat : [[{"id":11},{"id":39}]]
 
 [
     'fName' => 'address_enc',
@@ -11,4 +15,37 @@
     'fSafeChars' => ' àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.',
     'fTransform' => 'NONE',
     'fMinTokenLen' => 4,
+],
+
+
+DR. JORDAN TORPHY IV
+
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]DR.] same result for : ["DR.",3023800,958300,7,7]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]JOR] same result for : ["JOR",3125700,873400,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORD] same result for : ["ORD",3114500,886200,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]RDA] same result for : ["RDA",2823800,860200,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]DAN] same result for : ["DAN",3010400,920800,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]JORD] same result for : ["JORD",2965600,824700,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORDA] same result for : ["ORDA",2773800,854900,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]RDAN] same result for : ["RDAN",2898100,854500,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]JORDA] same result for : ["JORDA",2811600,856200,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORDAN] same result for : ["ORDAN",2935300,911100,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]JORDAN] same result for : ["JORDAN",2759800,858500,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]TOR] same result for : ["TOR",2910600,876300,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORP] same result for : ["ORP",2936900,886400,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]RPH] same result for : ["RPH",2832100,861300,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]PHY] same result for : ["PHY",2888000,899400,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]TORP] same result for : ["TORP",2828200,891700,2,2]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORPH] same result for : ["ORPH",2885200,866700,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]RPHY] same result for : ["RPHY",3941700,1408500,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]TORPH] same result for : ["TORPH",3406800,973200,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]ORPHY] same result for : ["ORPHY",3010200,897500,1,1]
+[2022-01-02 19:41:32] local.INFO: CRUD:ENC_FULL@name_enc]TORPHY] same result for : ["TORPHY",3100800,895200,1,1]
+[
+  'fName' => 'name_enc',
+  'fType' => 'ENCRYPTED_FULL_TEXT',
+  // aggiungere anche l'apice per indicizzare O'Briant Malago'
+  'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
+  'fTransform' => 'UPPER_CASE',
+  'fMinTokenLen' => 3,
 ],
