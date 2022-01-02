@@ -71,7 +71,7 @@ class RainbowTableIndex03CRUDTest extends TestCase
             {
                 $DATA_ENCRYPTED_FULL_TEXT[$item['fName']] = [];
                 $fName_flat = substr($item['fName'], 0, -4);
-                $ids = $a::select($fName_flat)->limit(3)->get()->toArray();
+                $ids = $a::select($fName_flat)->limit(100)->get()->toArray();
                 Log::channel('stderr')->info('CRUD:ids------->', [$ids] );
 
                 foreach($ids as $o)
@@ -95,7 +95,7 @@ class RainbowTableIndex03CRUDTest extends TestCase
             if ($item['fType'] == 'ENCRYPTED')
             {
                 $DATA_ENCRYPTED[$item['fName']] = [];
-                $ids = $a::select($item['fName'])->distinct()->limit(3)->get()->toArray();
+                $ids = $a::select($item['fName'])->distinct()->limit(5)->get()->toArray();
                 Log::channel('stderr')->info('CRUD:distinct------->', [$ids] );
                 foreach($ids as $o)
                 {

@@ -25,11 +25,12 @@ class Author extends Model
             [
               'fName' => 'name_enc',
               'fType' => 'ENCRYPTED_FULL_TEXT',
-              'fSafeChars' => ' àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.',
+              // aggiungere anche l'apice per indicizzare O'Briant Malago'
+              'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
               'fTransform' => 'UPPER_CASE',
               'fMinTokenLen' => 3,
             ],
-            
+
             [
                 'fName' => 'address_enc',
                 'fType' => 'ENCRYPTED_FULL_TEXT',
@@ -51,8 +52,8 @@ class Author extends Model
                 'fTransform' => 'UPPER_CASE',
                 'fMinTokenLen' => 3,
             ],
-           
-        ]        
+
+        ]
 
     ];
 
