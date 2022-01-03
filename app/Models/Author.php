@@ -34,8 +34,8 @@ class Author extends Model
             [
                 'fName' => 'address_enc',
                 'fType' => 'ENCRYPTED_FULL_TEXT',
-                'fSafeChars' => ' àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.',
-                'fTransform' => 'NONE',
+                'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
+                'fTransform' => 'UPPER_CASE',
                 'fMinTokenLen' => 4,
             ],
             [

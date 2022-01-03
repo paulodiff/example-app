@@ -1,9 +1,10 @@
 7705 Granville Forest Suite 167
+Hash("Vill")<>Hash("vill") but like is ok!
 [2022-01-02 14:07:53] local.ERROR: Check mismatch : ["address","Vill"]
 [2022-01-02 14:07:53] local.ERROR: arr1 enc  : [[{"id":1},{"id":54},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
 [2022-01-02 14:07:53] local.ERROR: arr2 flat : [[{"id":1},{"id":54},{"id":122},{"id":126},{"id":240},{"id":296},{"id":300},{"id":302},{"id":351},{"id":360},{"id":363},{"id":426},{"id":435},{"id":484},{"id":485},{"id":548},{"id":575},{"id":707},{"id":877},{"id":956},{"id":972}]]
 
-Check mismatch : ["address","arde"]
+Check mismatch : ["address","arde"] (with hash arde<>Arde but like is ok!)
 11) 39006 Nettie Garden Suite 880
 39) 732 Ardella Prairie
 [2022-01-02 19:44:10] local.ERROR: arr1 enc  : [[{"id":11}]]
@@ -17,6 +18,10 @@ Check mismatch : ["address","arde"]
     'fMinTokenLen' => 4,
 ],
 
+77712 O'Conner Plain Apt. 996  =>  OCONNER PLAIN APT.
+Check mismatch : ["address","OCON"]
+[2022-01-03 19:54:23] local.ERROR: arr1 enc  : [[{"id":17}]]
+[2022-01-03 19:54:23] local.ERROR: arr2 flat : [[]]
 
 DR. JORDAN TORPHY IV
 

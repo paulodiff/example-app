@@ -1,6 +1,6 @@
 <?php
 
-// php artisan test --testsuite=Feature --filter=RainbowTableIndex04MaintenaceTest --stop-on-failure
+// php artisan test --testsuite=Feature --filter=RainbowTableIndex04MaintenanceTest --stop-on-failure
 
 namespace Tests\Feature;
 
@@ -22,7 +22,7 @@ use App\Models\Author;
 
 
 
-class RainbowTableIndex04MaintenaceTest extends TestCase
+class RainbowTableIndex04MaintenanceTest extends TestCase
 {
     use RainbowTableIndexTrait;
     // -------------------- TO CHANGE ---------------------------------------
@@ -45,7 +45,7 @@ class RainbowTableIndex04MaintenaceTest extends TestCase
 /*
         $numOftests = $this->NUM_OF_SEARCH;
         $this->faker = Faker::create('Maintenance');
-
+*/
         // Author search test
         $a = Author::where('id', 3)->first();
         Log::channel('stderr')->info('Maintenance:config', [$a::$rainbowTableIndexConfig]);
@@ -55,7 +55,7 @@ class RainbowTableIndex04MaintenaceTest extends TestCase
 
         Log::channel('stderr')->info('Maintenance:rebuildFullRainbowIndex:->', []);
         $r2 = Author::rebuildFullRainbowIndex();
-*/
+
         Log::channel('stderr')->info('Maintenance: end!', [] );
 
     }
