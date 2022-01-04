@@ -127,6 +127,8 @@ composer create-project laravel/laravel rainbow-table-index
 cd rainbow-table-index
 ```
 
+https://github.com/paulodiff/RainbowTableIndex.git
+
 Copy the following files in folder
 
 
