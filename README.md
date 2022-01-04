@@ -1,66 +1,286 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel database data encryption with full text search
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# **DISCLAIMER DO NOT USE IN PRODUCTION!**
 
-## About Laravel
+## Introduction
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Database data encryption is a must-have and it's very simple to encrypt data in database using Laravel Eloquent ORM casts:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```php
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+class Post extends Model
+{
+    protected $casts = [
+        'title' => 'encrypted',
+    ];
+}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+With encrypted data fields, you can search only with exact field name value:
 
-## Learning Laravel
+```php
+$p = Post::where('title','Beautiful Post'); // OK
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+but it's not possible using LIKE
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```php
+$p = Post::where('title','LIKE','%Bea%'); // WRONG!
+```
 
-## Laravel Sponsors
+because the real data stored in database table are encrypted:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```php
+"id";"title"
+"1";"7OioIr/njEtH0fFHDoVopndh2z/yfQ4r8i40QlZjaITQ7Mh5QwnhH/Gjug=="
+```
 
-### Premium Partners
+Laravel includes Eloquent, an object-relational mapper (ORM).
+By extending the Eloquent classes, and using the Laravel Traits, it is possible to build a library that allows you to perform full text searches on encrypted text using a "Rainbow Table Index".
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+## The idea ...
 
-## Contributing
+The goal: perform a search using LIKE operator in encrypted data.
+Building an alternative index (**Rainbow Table Index**) with a library, is possible to index encrypted values and query this values.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+This is a working sample, with a Post model ([id, title]). We create a Post item.
 
-## Code of Conduct
+```php
+Post::create(['id'=> 88, 'title' => 'Beauty']); 
+```
+The resultant Rainbow Index Table  (is the minimum token size is 3):
+```php
+Rainbow Table Index data
+post:title BEA 88
+post:title EAU 88
+post:title AUT 88
+post:title UTY 88
+post:title BEAU 88
+post:title EAUT 88
+post:title AUTY 88
+post:title BEAUTY 88
+```
+A LIKE search on an encrypted field
+```php
+$p = Post::where('title','LIKE','%BEA%');
+```
+is automatically converted first in a search on Rainbow Table Index and next the ids of token 'BEA' the query become:
+```php
+$p = Post::whereIn('id', [88,99]);
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Rainbow Table Index 
 
-## Security Vulnerabilities
+A "Rainbow Table Index" is a index that is builded by RainbowTableService:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- when a Eloquent Model are created/updated automagically the Rainbow Table index are created/updated
+- all values are hashed data
+- the index table name is encrypted
+- a database table for each Eloquent Model get all Rainbow Table Index data
 
-## License
+This is sample of Rainbow Table Index for Post model on encrypted title_enc field
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+Index table name: rt_098f6bcd4621d373cade4e832627b4f6
+Index table data:
+'72caf77378e7701778ce0cccc0fd039e0d94b98a55c60ba682fc99d6721603c8', 1,
+'dbd3f5ac60697264f02f0c15a48ea14caee3d406f67e2f9984428d47103ec044', 1,
+'86157f358f2367aa1982a87b5b50c46cf2bbcbdc4ac6fe433e7d70832e515327', 1,
+'ea65a3097b9a8b21001fff748c41361ebde9eeb4da8337ac52e399c5f7b56c63', 1,
+'b8d6d5ae5fc5d8d9f30abd26c4121181d9d0ff93e5c284acbbf4a906746577e2', 1,
+'05ae2a908b7b449aae4da0fcd4643a9d4a057da348483ae2003af5eaaa707559', 1,
+'e89cb3bd55c9154a4e2d880328484c4319ba256bd8bfa831c90de1799ee05ebd', 1,
+'594030e2225adb878eb684500e8052c1e0fe4d12ac45b44131a118b331c846ca', 1,
+'a4a769bcea0af688f59b7a78b2b2b3c17666f159a351d82029c22acfa1e2b2e3', 1,
+'01575a87c3747df1428f82505357aa714dc901adad47856df7721264ca60fa62', 1,
+'8d5aec01cdd256ccea2dcb4dd740acf471c2dec508bec2e97b2c3342144c5fc7', 1,
+'288185f42ed618ed8ed7f95f0d7869eda7d85fcaec6a49d81ca1e6ebe89e8c36', 1,
+'85e4c5234afdcf3dc8f885d82361849df47c938d36ae4330d2a17a4e4bd57f32', 1,
+```
+
+It is possible to calculate the number of rows of an index for each data to be indexed ($w is token length and $s is a string to tokenize)
+
+```
+for ($w=3;$w<= strlen($s); $w++) $numOfEntries += (strlen($s) + 1 - $w);
+```
+
+## Use case
+
+The library can be used in contexts where it is necessary to guarantee the privacy of sensitive data, and it is necessary to perform searches with LIKE, for example:
+
+- name or surname 
+- address 
+- credit card number
+
+
+## Installation
+
+### Requirements
+
+- Laravel 8
+- Mysql 
+- php Sodium
+- Redis (Coming soon)
+
+## Example - Demo
+
+Create a Laravel Application
+
+```bash
+composer create-project laravel/laravel rainbow-table-index
+cd rainbow-table-index
+```
+
+Copy the following files in folder
+
+
+```bash
+copy rainbowtable.php -> rainbow-table-index\config
+
+create folder rainbow-table-index\app\RainbowTable
+copy RainbowTrait.php -> rainbow-table-index\app\RainbowTable
+copy RainbowQueryBuilder.php -> rainbow-table-index\app\RainbowTable
+copy Encrypter.php -> rainbow-table-index\app\RainbowTable
+
+copy Post.php -> rainbow-table-index\app\Models
+copy Category.php -> rainbow-table-index\app\Models
+copy Comment.php -> rainbow-table-index\app\Models
+
+copy PostCommentCategorySeeder.php -> rainbow-table-index\database\seeders
+copy PostCommentCategoryTest.php -> rainbow-table-index\database\seeders
+copy RainbowCheckConfig.php -> rainbow-table-index\database\seeders
+
+create folder rainbow-table-index\app\Services
+copy RainbowTableService.php in rainbow-table-index\app\Services
+```
+Create a dabase named: **rainbow**  and configure mysql in .env 
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=rainbow
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Run Check configuration for the first time
+
+php artisan db:seed --class=RainbowCheckConfig
+
+- check database connection
+- create table for test (Post, Comments, Categories)
+- check PHP SODIUM
+- check config Rainbow security values
+- create a sample Rainbow Index
+
+set to .env
+RAINBOW_TABLE_KEY=...
+RAINBOW_TABLE_NONCE=..
+
+and run
+
+php artisan optimize
+
+// re check configuration with until ALL OK!
+php artisan db:seed --class=RainbowCheckConfig
+
+
+All ok! Installation and configuration is complete!
+
+Run a demo with Posts, Comments and Categories
+
+# create migration
+
+php artisan make:migration create_posts_comments_categories_table
+
+# fill migration
+
+```
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreatePostsCommentsCategoriesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('posts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('title_enc');
+            $table->timestamps();
+        });
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->unsigned();
+            $table->text('body');
+            $table->text('body_enc');
+            $table->text('category');
+            $table->timestamps();
+        });
+    }
+       
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('posts');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('categories');
+    }
+}
+```
+
+# run migration
+
+php artisan migrate
+
+# create model
+
+php artisan make:model Post
+php artisan make:model Comment
+php artisan make:model Category
+
+# fill modes
+
+TODO edit Post & Comment .php
+
+# run seeder 
+
+php artisan db:seed --class=PostCommentSeeder
+
+# run test
+
+# set LOG LEVEL to show activities ...
+.env
+LOG_LEVEL=debug
+php artisan optimize
+
+php artisan db:seed --class=PostCommentTest
+
+# STATS
+
+# maintenance
+
+# customization
+
+sanitize_string
+
+# Future works
+```
+
+```
