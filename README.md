@@ -190,7 +190,10 @@ Run a demo with Posts, Comments and Categories
 
 ## Model configuration
 
-This is the configuration to make an encrypted field data in a model
+This is the configuration to make an encrypted field data in a model. For example:
+
+- name_enc, address_enc, card_number_enc are Encrypted and searchble with Rainbow Index
+- role_enc are only encrypted
 
 
 ```php
@@ -237,19 +240,32 @@ public static $rainbowTableIndexConfig = [
 
 
 
-The field configuration:
+The field configuration explanation:
 
 
 ```php
 'fName' => NAME OF TABLE FIELD TO ENCRYPT
 'fType' => ENCRYPTION TYPE (ENCRYPTED_FULL_TEXT|ENCRYPTED) with Rainbow Index or only encription
+// data transformation config before insert into Rainbow Index
 'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
 'fTransform' => 'UPPER_CASE',
 'fMinTokenLen' => 3,
 
 ```
 
-daraer
+When a data need to be inserted in RainbowTableIndex a trasformation is applied:
+
+1. Only "safe chars" are valid
+2. Optional : CASE TRASFORMATION
+3. Token size generation
+
+An Example:
+
+Address data : "77712 O'Conner Plain Apt. 996 nw"  
+
+1. Safe char filter: "O'Conner Plain Apt. nw" 
+2. Case transformation: "O'CONNER PLAIN APT. NW"
+3. Tokenization "[O'C]['CO]ONNER PLAIN APT. NW" .... TODO (NW skipped!)
 
 
 
