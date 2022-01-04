@@ -1,8 +1,6 @@
 # Laravel database data encryption with full text search
 
-# **DISCLAIMER DO NOT USE IN PRODUCTION!**
-
-## 🚨 DO NOT USE IN PRODUCTION! 🚨
+# 🚨 DO NOT USE IN PRODUCTION! 🚨
 
 ## Introduction
 
@@ -190,11 +188,15 @@ Run a demo with Posts, Comments and Categories
 
 ## Model configuration
 
-This is the configuration to make an encrypted field data in a model. For example:
+This is the configuration to use encrypted/searchable field data in a model. 
 
-- name_enc, address_enc, card_number_enc are Encrypted and searchble with Rainbow Index
+For example, if you want configure this fields:
+
+- name_enc, address_enc, card_number_enc are encrypted and searchable with Rainbow Index
+
 - role_enc are only encrypted
 
+the `$rainbowTableIndexConfig` is:
 
 ```php
 		
@@ -248,8 +250,8 @@ The field configuration explanation:
 'fType' => ENCRYPTION TYPE (ENCRYPTED_FULL_TEXT|ENCRYPTED) with Rainbow Index or only encription
 // data transformation config before insert into Rainbow Index
 'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
-'fTransform' => 'UPPER_CASE',
-'fMinTokenLen' => 3,
+'fTransform' => 'UPPER_CASE', (UPPER_CASE|LOWER_CASE|NONE)
+'fMinTokenLen' => 3, (Token lenght, smaller are skipped!))
 
 ```
 
@@ -353,9 +355,30 @@ php artisan optimize
 
 php artisan db:seed --class=PostCommentTest
 
-# STATS / Performance and dimensions
 
-# maintenance
+
+# Service operation
+
+You can rebuild all indexed data for an intaciated model:
+
+```php
+$a = Author::where('id', 3)->first();
+$r1 = $a->rebuildRainbowIndex();
+```
+
+or you can rebuild ALL indexes for ALL instances of a model
+
+```php
+$r2 = Author::rebuildFullRainbowIndex();
+```
+
+# Stats / Performance and dimensions
+
+Access time to an instance is different.
+My test:
+- 1000 insta
+- Index dimension
+- Time access.
 
 It is possible to calculate the number of rows of an index for each data to be indexed ($w is token length and $s is a string to tokenize)
 
@@ -363,9 +386,8 @@ It is possible to calculate the number of rows of an index for each data to be i
 for ($w=3;$w<= strlen($s); $w++) $numOfEntries += (strlen($s) + 1 - $w);
 ```
 
-## 
 
-# customization
+# Customization
 
 sanitize_string
 
