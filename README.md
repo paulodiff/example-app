@@ -2,6 +2,8 @@
 
 # **DISCLAIMER DO NOT USE IN PRODUCTION!**
 
+## 🚨 DO NOT USE IN PRODUCTION! 🚨
+
 ## Introduction
 
 Database data encryption is a must-have and it's very simple to encrypt data in database using Laravel Eloquent ORM casts:
@@ -100,12 +102,6 @@ Index table data:
 '85e4c5234afdcf3dc8f885d82361849df47c938d36ae4330d2a17a4e4bd57f32', 1,
 ```
 
-It is possible to calculate the number of rows of an index for each data to be indexed ($w is token length and $s is a string to tokenize)
-
-```
-for ($w=3;$w<= strlen($s); $w++) $numOfEntries += (strlen($s) + 1 - $w);
-```
-
 ## Use case
 
 The library can be used in contexts where it is necessary to guarantee the privacy of sensitive data, and it is necessary to perform searches with LIKE, for example:
@@ -124,7 +120,7 @@ The library can be used in contexts where it is necessary to guarantee the priva
 - php Sodium
 - Redis (Coming soon)
 
-## Example - Demo
+### Example - Demo - Running Tests
 
 Create a Laravel Application
 
@@ -192,7 +188,76 @@ All ok! Installation and configuration is complete!
 
 Run a demo with Posts, Comments and Categories
 
-# create migration
+## Model configuration
+
+This is the configuration to make an encrypted field data in a model
+
+
+```php
+		
+public static $rainbowTableIndexConfig = [
+       'table' => [
+            'primaryKey' => 'id',       // table primary key
+            'tableName' => 'authors',   // table name
+        ],
+        'fields' => [
+            [
+              'fName' => 'name_enc',
+              'fType' => 'ENCRYPTED_FULL_TEXT',
+              'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
+              'fTransform' => 'UPPER_CASE',
+              'fMinTokenLen' => 3,
+            ],
+
+            [
+                'fName' => 'address_enc',
+                'fType' => 'ENCRYPTED_FULL_TEXT',
+                'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
+                'fTransform' => 'UPPER_CASE',
+                'fMinTokenLen' => 4,
+            ],
+            [
+                'fName' => 'card_number_enc',
+                'fType' => 'ENCRYPTED_FULL_TEXT',
+                'fSafeChars' => '1234567890',
+                'fTransform' => 'NONE',
+                'fMinTokenLen' => 4,
+            ],
+            [
+                'fName' => 'role_enc',
+                'fType' => 'ENCRYPTED',
+                'fSafeChars' => ' àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.',
+                'fTransform' => 'UPPER_CASE',
+                'fMinTokenLen' => 3,
+            ],
+
+        ]
+    ]
+```
+
+
+
+The field configuration:
+
+
+```php
+'fName' => NAME OF TABLE FIELD TO ENCRYPT
+'fType' => ENCRYPTION TYPE (ENCRYPTED_FULL_TEXT|ENCRYPTED) with Rainbow Index or only encription
+'fSafeChars' => " 'àèéìòùqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM.",
+'fTransform' => 'UPPER_CASE',
+'fMinTokenLen' => 3,
+
+```
+
+daraer
+
+
+
+
+
+
+
+
 
 php artisan make:migration create_posts_comments_categories_table
 
@@ -272,9 +337,17 @@ php artisan optimize
 
 php artisan db:seed --class=PostCommentTest
 
-# STATS
+# STATS / Performance and dimensions
 
 # maintenance
+
+It is possible to calculate the number of rows of an index for each data to be indexed ($w is token length and $s is a string to tokenize)
+
+```
+for ($w=3;$w<= strlen($s); $w++) $numOfEntries += (strlen($s) + 1 - $w);
+```
+
+## 
 
 # customization
 
