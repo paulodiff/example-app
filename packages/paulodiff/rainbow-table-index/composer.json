@@ -1,0 +1,19 @@
+{
+    "name": "paulodiff/rainbow-table-index",
+    "description": "The RainbowTableIndex package",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "RainbowTableIndex\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Paulo Difficiliora",
+            "email": "paulo.difficiliora@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

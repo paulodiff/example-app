@@ -123,11 +123,14 @@ The library can be used in contexts where it is necessary to guarantee the priva
 Create a Laravel Application
 
 ```bash
-composer create-project laravel/laravel rainbow-table-index
-cd rainbow-table-index
+composer create-project laravel/laravel rainbow-table-index-demo
+cd rainbow-table-index-demo
+composer require paulodiff/rainbow-table-index
 ```
 
 https://github.com/paulodiff/RainbowTableIndex.git
+
+https://github.com/austinheap/laravel-database-encryption#schemas
 
 Copy the following files in folder
 
@@ -393,7 +396,10 @@ for ($w=3;$w<= strlen($s); $w++) $numOfEntries += (strlen($s) + 1 - $w);
 
 sanitize_string
 
-# Future works
+# Future works - Reference
+
+https://packagist.org/packages/paulodiff/rainbow-table-index	q
+
 ```
 
 ```

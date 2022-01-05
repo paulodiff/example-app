@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c61ff82cbf0142a401a48a8161e1595a",
+    "content-hash": "52efb8e6f9a488e9733a05816bfe6a75",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2119,6 +2119,58 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
+        },
+        {
+            "name": "paulodiff/rainbow-table-index",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paulodiff/rainbow-table-index.git",
+                "reference": "06ec2728cdf968cb14c06a333290f31ee0f3af56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paulodiff/rainbow-table-index/zipball/06ec2728cdf968cb14c06a333290f31ee0f3af56",
+                "reference": "06ec2728cdf968cb14c06a333290f31ee0f3af56",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.8 || ^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RainbowTableIndex\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PauloDiff",
+                    "email": "paulo.difficiliora@gmail.com",
+                    "homepage": "https://github.com/paulodiff/rainbow-table-index"
+                }
+            ],
+            "description": "Laravel database data encryption with full text search.",
+            "homepage": "https://github.com/paulodiff/rainbow-table-index",
+            "keywords": [
+                "database",
+                "eloquent",
+                "encryption",
+                "full",
+                "orm",
+                "search",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/paulodiff/rainbow-table-index/issues",
+                "source": "https://github.com/paulodiff/rainbow-table-index/tree/main"
+            },
+            "time": "2022-01-04T15:07:44+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -7875,7 +7927,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "paulodiff/rainbow-table-index": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
