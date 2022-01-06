@@ -3,7 +3,7 @@
  * src/Encryption.php.
  *
  */
-namespace App\RainbowTableIndex;
+namespace RainbowTableIndex;
 
 use Illuminate\Support\Facades\Log;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\RainbowTableIndex;
+namespace RainbowTableIndex;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
-use App\RainbowTableIndex\RainbowTableIndexEncrypter;
+use RainbowTableIndex\RainbowTableIndexEncrypter;
 
 // class RainbowTableService implements RainbowTableServiceInterface
 class RainbowTableIndexService
@@ -307,7 +307,7 @@ class RainbowTableIndexService
     {
       $tname = $this->slugify($tag);
       Log::debug('RainbowTableService!setupStorage!', [$tname] );
-    
+
       if (config('rainbowtableindex.encrypt'))
       {
         $tname = RainbowTableIndexEncrypter::hash_md5($tname);

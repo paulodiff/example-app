@@ -1,12 +1,12 @@
 <?php
-namespace App\RainbowTableIndex;
+namespace RainbowTableIndex;
 
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 
-use App\RainbowTableIndex\RainbowTableIndexEncrypter;
-use App\RainbowTableIndex\RainbowTableIndexService;
+use RainbowTableIndex\RainbowTableIndexEncrypter;
+use RainbowTableIndex\RainbowTableIndexService;
 
 
 class RainbowTableIndexQueryBuilder extends Builder {
@@ -19,7 +19,7 @@ class RainbowTableIndexQueryBuilder extends Builder {
     // $p : elenco campi cifrati da tenere per la cifratura
     public static function makeWithParameter($q, $p) {
         Log::debug('RainbowQueryBuilder!makeWithParameter', [$p] );
-        $obj = new RainbowTableIndexQueryBuilder($q); 
+        $obj = new RainbowTableIndexQueryBuilder($q);
         $obj->enc_fields = $p;
         // other initialization
         $obj->rtService = new \App\RainbowTableIndex\RainbowTableIndexService();
@@ -68,11 +68,11 @@ class RainbowTableIndexQueryBuilder extends Builder {
               'fType' => 'ENCRYPTED_FULL_TEXT',
               'fSafeChars' => 'AEIOU',
             ],
-        ]   
+        ]
          */
         // controllo se il campo è in configurazione e di che tipo
 
-        if(!is_string($column)) 
+        if(!is_string($column))
         {
             Log::debug('RainbowQueryBuilder:>>>>>>>>> NO STRING returm immediatly SIMPLE ----->', [$column, $operator] );
             return parent::where($column, $operator, $value, $boolean);
@@ -80,10 +80,10 @@ class RainbowTableIndexQueryBuilder extends Builder {
 
         // check type
 
-        $tName = $this->enc_fields['table']['tableName']; 
-        $primaryKey = $this->enc_fields['table']['primaryKey'];  
+        $tName = $this->enc_fields['table']['tableName'];
+        $primaryKey = $this->enc_fields['table']['primaryKey'];
         $fName = ""; $fType = "";
-        foreach ($this->enc_fields['fields'] as $key => $val) 
+        foreach ($this->enc_fields['fields'] as $key => $val)
         {
             // print_r($key);
             // print_r($val);
@@ -119,7 +119,7 @@ class RainbowTableIndexQueryBuilder extends Builder {
             return parent::where($column, $operator, $value, $boolean);
         }
 
-            
+
     }
 
     public function likeEncrypted($param1, $param2, $param3 = null)

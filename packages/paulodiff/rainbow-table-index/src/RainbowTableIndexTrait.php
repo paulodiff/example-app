@@ -1,13 +1,13 @@
 <?php
-namespace App\RainbowTableIndex;
+namespace RainbowTableIndex;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-use App\RainbowTableIndex\RainbowTableIndexQueryBuilder;
-use App\RainbowTableIndex\RainbowTableIndexEncrypter;
-use App\RainbowTableIndex\RainbowTableIndexService;
+use RainbowTableIndex\RainbowTableIndexQueryBuilder;
+use RainbowTableIndex\RainbowTableIndexEncrypter;
+use RainbowTableIndex\RainbowTableIndexService;
 
 
 trait RainbowTableIndexTrait
